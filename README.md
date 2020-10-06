@@ -49,7 +49,7 @@ Lastly, start the app with:
 
 ### How it works
 
-By defaulton login Strapi responds with a json web token in the response body. This app is filtering the token and save it in the database, and replaces that token with own token based on the payload of the Strapi token. From this point on this app takes the access management responsability. The Strapi token is valid one month. This app can manage the token validation separately for each host. For example, if the host is configured to expire the token in 30 minutes (default) if in this interval the user use the token validity is extended to the next 30 minutes (this is sliding expiration used by default). If the token expires user has to re-login into Strapi app. If is desired to let token to be valid entire browser session the frontend framework must use the token to access this app within it's validity interval.
+By default on login Strapi responds with a json web token in the response body. This app is filtering the token and save it in the database, and replaces that token with own token based on the payload of the Strapi token. From this point on this app takes the access management responsability. The Strapi token is valid one month. This app can manage the token validation separately for each host. For example, if the host is configured to expire the token in 30 minutes `(default)` if in this interval the user use the token validity is extended to the next 30 minutes (this is sliding expiration used by default). If the token expires user has to re-login into Strapi app. If is desired to let token to be valid the entire browser session the frontend framework must use the token to access this app within it's validity interval.
 
 ### Customization
 
