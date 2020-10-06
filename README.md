@@ -153,7 +153,7 @@ You may also want to disable some other options when GeoIP is used.
 #### External api connections
 * Use this proxy to perform external api requests in the backend instead of frontend, it increases the security.
 
-#### Feel free to submit new ides. Sky is the limit!
+#### Feel free to submit new ideas. Sky is the limit!
 
 ### Todo next:
 
