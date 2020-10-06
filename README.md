@@ -28,6 +28,9 @@ gh repo clone SorinGFS/strapi-access-proxy
 
 Then, configure the downstream server to proxy the requests to this app: `localhost:7331` (default for production) or `localhost:3002` (default for development)
 
+Edit `JWT_SECRET`, `COOKIE_SECRET` or other vars in `config/env/*` files.
+Edit mongoDB connection parameters which forms the `MONGO_URI`, default is: `mongodb://localhost:27017/access` with no authentication (blank `DB_USER and DB_PASS`)
+
 Lastly, start the app with:
 ```
  `npm run start` or `npm run dev`.
