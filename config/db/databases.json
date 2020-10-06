@@ -1,0 +1,19 @@
+[
+    {
+        "type": "mongodb",
+        "authDb": null,
+        "dbName": null,
+        "connection": {
+            "user": null,
+            "pass": null,
+            "host": null,
+            "port": null
+        },
+        "options": {
+            "useNewUrlParser": true,
+            "useUnifiedTopology": true,
+            "retryWrites": true,
+            "w": "majority"
+        }
+    }
+]
