@@ -56,6 +56,12 @@ By default on login Strapi responds with a json web token in the response body. 
 
 ### Customization
 
+#### Terminology used:
+
+`csrs = cross site request signature (or secret)` -set by default in secure session cookie
+
+`csrt = cross site request token` -set by default in secure session cookie
+
 #### Add hosts
 
 ```json
@@ -113,6 +119,15 @@ By default on login Strapi responds with a json web token in the response body. 
 
 * See examples in `examples/jwt-usage-*`
 
+#### Fingerprint configuration
+
+Fingerprint can use GeoIP, but since requires `MaxMind` account is disabled by default. To enable it run this in terminal:
+```
+cd node_modules/geoip-lite && npm run-script updatedb license_key=YOUR_LICENSE_KEY
+```
+You may also want to disable some other options when GeoIP is used.
+
+
 ### List of configurable modules (middlewares)
 
 * Fingerprint
@@ -120,10 +135,30 @@ By default on login Strapi responds with a json web token in the response body. 
 * Rate Limit
 * Slow Donw
 
+### Some usage ideas
+
+#### Basic usage (my current case)
+* use Strapi as authentication provider and as a keeper for secure user data
+* add a new `TEXT` field in Strapi User Content Type named `audience` to hold the domain names that user has access to
+* use this app to manage the access to that Strapi db
+
+#### Separate the admin channel from the regular user channel
+* You may block admin routes in downstream server and stil have centralized access on localhost or local network thru this proxy.
+
+#### Multiple Strapi apps, and another Strapi app for central user management
+* configure the fist basic scenario
+* configure your other Strai apps with public data only. This way those apps can perform faster, can be placed on other server, can use load balancer, and so on. Take advantage from the fact that less than 10% of requests goes to secure user data.
+
+#### External api connections
+* Use this proxy to perform external api requests in the backend instead of frontend, it increases the security.
+
+#### Feel free to submit new ides. Sky is the limit!
+
 ### Todo next:
 
-Convert the application to installable npm module.
-SSL support to access Strapi apps located on the web.
+* Convert the application to installable npm module.
+* SSL support to access Strapi apps located on the web.
+* Finalize `access-log and access-control` modules.
 
 ### Disclaimer
 
