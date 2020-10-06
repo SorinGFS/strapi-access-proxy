@@ -63,6 +63,7 @@ By default on login Strapi responds with a json web token in the response body. 
 `csrt = cross site request token` -set by default in secure session cookie
 
 #### Add hosts
+edit `config/jwt/hosts.json`
 
 ```json
 [
