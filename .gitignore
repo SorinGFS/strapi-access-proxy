@@ -190,3 +190,6 @@ ModelManifest.xml
 
 # Snippets folder
 [Ss]nippets/*
+
+# keys symlinks
+config/keys/enabled/*.pem
