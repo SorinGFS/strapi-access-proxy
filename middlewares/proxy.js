@@ -54,7 +54,8 @@ const proxyOptions = {
             const data = JSON.parse(proxyResData.toString('utf8'));
             if (data.jwt) {
                 // strapi user token
-                if (data.user.audience.split(',').includes(userReq.hostname)) {
+                // if user audience not defined in Strapi User means the user have access to all hosts (if mode than ome exists)
+                if (!data.user.audience || data.user.audience.split(',').includes(userReq.hostname)) {
                     data.jwt = await authorize(userReq.jwtHost, userReq.cookies.csrs, userReq.fingerprint.hash, data.jwt);
                 } else {
                     userRes.sendStatus(400);
