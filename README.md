@@ -170,4 +170,4 @@ Please do not ask for support, since I'm a lone wolf I don't have time for this.
 
 #### License
 
-MIT
+[MIT]( strapi-access-proxy/LICENSE )
