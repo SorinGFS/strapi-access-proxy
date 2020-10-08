@@ -23,7 +23,10 @@ Extending the number of proxied hosts can be done by editing some modules:
 
 First, clone the project:
 ```
-gh repo clone SorinGFS/strapi-access-proxy
+cd /path/to/desired/location
+git clone https://github.com/SorinGFS/strapi-access-proxy.git
+cd strapi-access-proxy
+npm install
 ```
 
 Then, configure the downstream server to proxy the requests to this app: `localhost:7331` (default for production) or `localhost:3002` (default for development)
