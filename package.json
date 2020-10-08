@@ -11,6 +11,10 @@
         "name": "SorinGFS",
         "url": "https://github.com/SorinGFS"
     },
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/SorinGFS/strapi-access-proxy.git"
+    },
     "license": "MIT",
     "dependencies": {
         "cookie-parser": "^1.4.5",
