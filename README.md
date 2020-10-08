@@ -1,4 +1,5 @@
 # Strapi Access Proxy
+
 Strapi access management based on JWT.
 
 ### Motivation
@@ -18,10 +19,12 @@ Moreover, we can have multiple Strapi applications installed which would mean th
 For now, the application can be installed only by cloning this project.
 Out of the box, this application proxies incoming connections to `localhost:1337` which is Strapi's default host.
 Extending the number of proxied hosts can be done by editing some modules:
-* config/env/*
-* config/jwt/hosts
+
+-   config/env/\*
+-   config/jwt/hosts
 
 First, clone the project:
+
 ```
 cd /path/to/desired/location
 git clone https://github.com/SorinGFS/strapi-access-proxy.git
@@ -35,23 +38,24 @@ Edit `JWT_SECRET`, `COOKIE_SECRET` or other vars in `config/env/*` files.
 Edit mongoDB connection parameters which forms the `MONGO_URI`, default is: `mongodb://localhost:27017/access` with no authentication (blank `DB_USER and DB_PASS`)
 
 Lastly, start the app with:
+
 ```
  `npm run start` or `npm run dev`.
 ```
 
 ### Features
 
-* Separate configurations for development and production environment
-* CSRF Protection
-* Rate Limit
-* Slow Down (DDOS protection)
-* Fingerprint
-* JWT based Access Management:
-    - support for multiple hostnames
-    - support for single or multiple login devices (default multiple devices)
-    - support for sliding token expiration (default)
-    - support for refresh token (needs specific configuration)
-    - support for RSA signed JWT
+-   Separate configurations for development and production environment
+-   CSRF Protection
+-   Rate Limit
+-   Slow Down (DDOS protection)
+-   Fingerprint
+-   JWT based Access Management:
+    -   support for multiple hostnames
+    -   support for single or multiple login devices (default multiple devices)
+    -   support for sliding token expiration (default)
+    -   support for refresh token (needs specific configuration)
+    -   support for RSA signed JWT
 
 ### How it works
 
@@ -66,6 +70,7 @@ By default on login Strapi responds with a json web token in the response body. 
 `csrt = cross site request token` -set by default in secure session cookie
 
 #### Add hosts
+
 edit `config/jwt/hosts.json`
 
 ```json
@@ -117,52 +122,58 @@ edit `config/jwt/hosts.json`
     }
 ]
 ```
-* Notice the last host's proxied host is a different Strapi app! You can configure multiple hosts for the same proxied host, and you can configure multiple proxied hosts. Each entry in `hosts` corresponds to a jwtHost, which is used to configure the response token.
+
+-   Notice the last host's proxied host is a different Strapi app! You can configure multiple hosts for the same proxied host, and you can configure multiple proxied hosts. Each entry in `hosts` corresponds to a jwtHost, which is used to configure the response token.
 
 #### Token configuration
 
-* See examples in `examples/jwt-usage-*`
+-   See examples in `examples/jwt-usage-*`
 
 #### Fingerprint configuration
 
 Fingerprint can use GeoIP, but since requires `MaxMind` account is disabled by default. To enable it run this in terminal:
+
 ```
 cd node_modules/geoip-lite && npm run-script updatedb license_key=YOUR_LICENSE_KEY
 ```
-You may also want to disable some other options when GeoIP is used.
 
+You may also want to disable some other options when GeoIP is used.
 
 ### List of configurable modules (middlewares)
 
-* Fingerprint
-* Access Control
-* Rate Limit
-* Slow Donw
+-   Fingerprint
+-   Access Control
+-   Rate Limit
+-   Slow Donw
 
 ### Some usage ideas
 
 #### Basic usage (my current case)
-* use Strapi as authentication provider and as a keeper for secure user data
-* add a new `TEXT` field in Strapi User Content Type named `audience` to hold the domain names that user has access to
-* use this app to manage the access to that Strapi db
+
+-   use Strapi as authentication provider and as a keeper for secure user data
+-   add a new `TEXT` field in Strapi User Content Type named `audience` to hold the domain names that user has access to
+-   use this app to manage the access to that Strapi db
 
 #### Separate the admin channel from the regular user channel
-* You may block admin routes in downstream server and stil have centralized access on localhost or local network thru this proxy.
+
+-   You may block admin routes in downstream server and stil have centralized access on localhost or local network thru this proxy.
 
 #### Multiple Strapi apps, and another Strapi app for central user management
-* configure the fist basic scenario
-* configure your other Strai apps with public data only. This way those apps can perform faster, can be placed on other server, can use load balancer, and so on. Take advantage from the fact that less than 10% of requests goes to secure user data.
+
+-   configure the fist basic scenario
+-   configure your other Strai apps with public data only. This way those apps can perform faster, can be placed on other server, can use load balancer, and so on. Take advantage from the fact that less than 10% of requests goes to secure user data.
 
 #### External api connections
-* Use this proxy to perform external api requests in the backend instead of frontend, it increases the security.
+
+-   Use this proxy to perform external api requests in the backend instead of frontend, it increases the security.
 
 #### Feel free to submit new ideas. Sky is the limit!
 
 ### Todo next:
 
-* Convert the application to installable npm module.
-* SSL support to access Strapi apps located on the web.
-* Finalize `access-log and access-control` modules.
+-   Convert the application to installable npm module.
+-   SSL support to access Strapi apps located on the web.
+-   Finalize `access-log and access-control` modules.
 
 ### Disclaimer
 
@@ -170,4 +181,4 @@ Please do not ask for support, since I'm a lone wolf I don't have time for this.
 
 #### License
 
-[MIT]( strapi-access-proxy/LICENSE )
+[MIT](LICENSE)
