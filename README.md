@@ -56,6 +56,7 @@ Lastly, start the app with:
     -   support for sliding token expiration (default)
     -   support for refresh token (needs specific configuration)
     -   support for RSA signed JWT
+-  Logout route (Strapi doesn't have)
 
 ### How it works
 
