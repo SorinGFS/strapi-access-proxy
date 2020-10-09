@@ -181,6 +181,6 @@ You may also want to disable some other options when GeoIP is used.
 
 Please do not ask for support, since I'm a lone wolf I don't have time for this. I will try to improve the project within the time available.
 
-#### License
+### License
 
 [MIT](LICENSE)
