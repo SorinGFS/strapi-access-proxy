@@ -66,7 +66,7 @@ By default on login Strapi responds with a json web token in the response body. 
 
 #### Logout route
 
-Strapi doesn't have logout route, meaning a captured token can provide access for a month! Using this Access Proxy there is no such risk, but as a in depth defense measure there is a logout route that removes the login from database, and responds with a 401 status and redirects to `/login`:
+Strapi doesn't have logout route, meaning a captured token can provide access for a month! Using this Access Proxy there is no such risk, but as a in depth defense measure there is a logout route that removes the login from database, and responds with a 401 status:
 
 ```
 /logout
