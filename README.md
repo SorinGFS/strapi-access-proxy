@@ -171,7 +171,7 @@ You may also want to disable some other options when GeoIP is used.
 
 #### Multiple Strapi apps, and another Strapi app for central user management
 
--   configure the fist basic scenario
+-   configure the first basic scenario
 -   configure your other Strai apps with public data only. This way those apps can perform faster, can be placed on other server, can use load balancer, and so on. Take advantage from the fact that less than 10% of requests goes to secure user data.
 
 #### External api connections
