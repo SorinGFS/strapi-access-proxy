@@ -9,17 +9,17 @@ jobs:
         name: 🚀 release
         runs-on: ubuntu-latest
         steps:
-            - name: 📚 checkout
+            - name: 📚 checkout branch
               uses: actions/checkout@v2.1.1
-            - name: 🟢 node
-              uses: actions/setup-node@v1.4.2
+              with:
+                  # "ref" specifies the branch to check out.
+                  ref: ${{ github.event.release.target_commitish }}
+            - name: 🟢 setup node v12
+              uses: actions/setup-node@v2.1.5
               with:
                   node-version: 12
                   registry-url: https://registry.npmjs.org
-            - name: Setup Node.js environment
-              uses: actions/setup-node@v2.1.5
-              with:
                   NODE_AUTH_TOKEN: ${{secrets.NPM_AUTH_TOKEN}}
             - name: 🚀 publish
-              run: npm publish --access public
+              run: npm publish --access public --tag ${{ github.event.release.target_commitish }}
               working-directory: strapi-access-proxy
