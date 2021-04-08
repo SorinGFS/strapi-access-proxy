@@ -7,15 +7,6 @@
         "start": "cross-env NODE_ENV=production node app",
         "dev": "cross-env NODE_ENV=development nodemon app"
     },
-    "author": {
-        "name": "SorinGFS",
-        "url": "https://github.com/SorinGFS"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git://github.com/SorinGFS/strapi-access-proxy.git"
-    },
-    "license": "MIT",
     "dependencies": {
         "cookie-parser": "^1.4.5",
         "csurf": "^1.11.0",
@@ -38,6 +29,19 @@
         "node": ">=10.0.0",
         "npm": ">=6.0.0"
     },
+    "author": {
+        "name": "SorinGFS",
+        "url": "https://github.com/SorinGFS"
+    },
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/SorinGFS/strapi-access-proxy.git"
+    },
+    "bugs": {
+        "url": "git://github.com/SorinGFS/strapi-access-proxy/issues"
+    },
+    "homepage": "https://github.com/SorinGFS/strapi-access-proxy#readme",
     "keywords": [
         "strapi",
         "api",
