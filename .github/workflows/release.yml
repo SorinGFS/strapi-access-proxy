@@ -16,8 +16,10 @@ jobs:
               with:
                   node-version: 12
                   registry-url: https://registry.npmjs.org
+            - name: Setup Node.js environment
+              uses: actions/setup-node@v2.1.5
+              with:
+                  NODE_AUTH_TOKEN: ${{secrets.NPM_AUTH_TOKEN}}
             - name: 🚀 publish
               run: npm publish --access public
               working-directory: strapi-access-proxy
-              env:
-                  NODE_AUTH_TOKEN: ${{secrets.NPM_AUTH_TOKEN}}
