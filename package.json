@@ -1,6 +1,6 @@
 {
     "name": "strapi-access-proxy",
-    "version": "1.0.5",
+    "version": "1.0.6",
     "description": "Strapi access management based on JWT.",
     "main": "app.js",
     "scripts": {
