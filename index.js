@@ -1,40 +1,34 @@
 'use strict';
-// description
-const expressProxy = require('express-http-proxy');
-const Permissions = require('../models/Permissions');
-const { CustomError } = require('../base/error');
-
-const proxyOptions = {
+// proxy plugin
+const createError = require('http-errors');
+// proxy options for strapi
+module.exports = {
     // // alternative for setUser middleware
     // proxyReqOptDecorator: async function (proxyReqOpts, srcReq) {
     //     if (srcReq.headers.authorization) {
     //         let authHeader = srcReq.headers.authorization.split(' ');
     //         if (authHeader[0] == 'Bearer') {
     //             try {
-    //                 srcReq.user = srcReq.jwtHost.verify(authHeader[1]);
+    //                 srcReq.user = srcReq.server.auth.jwt.verify(authHeader[1]);
     //                 // console.log(srcReq.user);
     //                 const login = { userID: srcReq.user.id, fingerprint: { hash: srcReq.fingerprint.hash } };
     //                 const permission = await Permissions.findOne(login).then((permission) => permission);
     //                 // check request login forgery
-    //                 if (permission && srcReq.jwtHost.bindCsrs && permission.csrs !== srcReq.cookies.csrs) {
-    //                     throw new Error('Invalid credentials.');
+    //                 if (permission && srcReq.server.auth.bindCsrs && permission.csrs !== srcReq.cookies.csrs) {
+    //                     next(createError(403, 'Invalid credentials.'));
     //                 }
     //                 // validate permission (if JWT expiresIn is used expiresAt will not extend that time)
     //                 if (permission && permission.expiresAt > new Date()) {
-    //                     Permissions.upsertOne(login,  { expiresAt: new Date(Date.now() + srcReq.jwtHost.maxInactivitySeconds * 1000) });
+    //                     Permissions.upsertOne(login, { expiresAt: new Date(Date.now() + srcReq.server.auth.maxInactivitySeconds * 1000) });
     //                     proxyReqOpts.headers = { Authorization: 'Bearer ' + permission.token };
     //                 } else if (permission) {
     //                     Permissions.deleteOne(login);
-    //                     throw new Error('Login expired due to inactivity.');
+    //                     next(createError(401, 'Login expired due to inactivity.'));
     //                 } else {
-    //                     throw new Error('Invalid credentials.');
+    //                     next(createError(403, 'Invalid credentials.'));
     //                 }
     //             } catch (error) {
-    //                 if (/expired/.test(error.message)) {
-    //                     res.status(401).json({ statusCode: 401, error: 'Unauthorized', message: error.message });
-    //                 } else {
-    //                     res.sendStatus(403);
-    //                 }
+    //                 next(error);
     //             }
     //         }
     //     }
@@ -44,7 +38,7 @@ const proxyOptions = {
     //     // recieves an Object of headers, returns an Object of headers.
     //     if (!userReq.user && headers['content-type'] && /json/.test(headers['content-type'])) {
     //         // headers['X-CSRF-Token'] = userReq.csrfToken();
-    //         headers['Set-Authorization'] = 'Bearer somhsit';
+    //         headers['Set-Authorization'] = 'Bearer own-token';
     //         headers['WWW-Authenticate'] = 'Bearer realm="Access to the staging site", charset="UTF-8"';
     //     }
     //     return headers;
@@ -52,17 +46,22 @@ const proxyOptions = {
     userResDecorator: async function (proxyRes, proxyResData, userReq, userRes) {
         if (!userReq.user && proxyRes.headers['content-type'] && /json/.test(proxyRes.headers['content-type'])) {
             const data = JSON.parse(proxyResData.toString('utf8'));
+            let login;
             if (data.jwt) {
                 // strapi user token
-                // if user audience not defined in Strapi User means the user have access to all hosts (if mode than ome exists)
+                // if user audience not defined in Strapi User means the user have access to all hosts managed by that strapi instalation (if mode than ome exists)
                 if (!data.user.audience || data.user.audience.split(',').includes(userReq.hostname)) {
-                    data.jwt = await authorize(userReq.jwtHost, userReq.cookies.csrs, userReq.fingerprint.hash, data.jwt);
+                    login = await userReq.server.auth.jwt.login(userReq, data.jwt);
+                    data.jwt = login.jwt;
+                    if (login.refresh) data.refresh = login.refresh;
                 } else {
-                    userRes.sendStatus(400);
+                    return next(createError(403, 'Forbidden origin.'));
                 }
             } else if (data.data && data.data.token) {
                 // strapi admin token
-                data.data.token = await authorize(userReq.jwtHost, userReq.cookies.csrs, userReq.fingerprint.hash, data.data.token);
+                login = await userReq.server.auth.jwt.login(userReq, data.data.token);
+                data.data.token = login.jwt;
+                if (login.refresh) data.data.refresh = login.refresh;
             } else {
                 return proxyResData;
             }
@@ -72,25 +71,3 @@ const proxyOptions = {
         }
     },
 };
-
-async function authorize(jwtHost, csrs, fingerprintHash, token) {
-    const payload = jwtHost.decode(token);
-    delete payload.iat;
-    delete payload.nbf;
-    delete payload.exp;
-    delete payload.iss;
-    delete payload.aud;
-    delete payload.sub;
-    delete payload.jti;
-    // console.log(payload);
-    const filter = { userID: payload.id, fingerprint: { hash: fingerprintHash } };
-    const update = { token: token, csrs: csrs, issuedAt: new Date(), expiresAt: new Date(Date.now() + jwtHost.maxInactivitySeconds * 1000) };
-    Permissions.upsertOne(filter, update);
-    return jwtHost.sign(payload);
-}
-
-const proxy = expressProxy((req) => {
-    return req.jwtHost.proxiedHost;
-}, proxyOptions);
-
-module.exports = proxy;

@@ -1,29 +1,10 @@
 {
     "name": "strapi-access-proxy",
     "version": "1.0.6",
-    "description": "Strapi access management based on JWT.",
-    "main": "app.js",
-    "scripts": {
-        "start": "cross-env NODE_ENV=production node app",
-        "dev": "cross-env NODE_ENV=development nodemon app"
-    },
+    "description": "Strapi Access Proxy Plugin.",
+    "main": "index.js",
     "dependencies": {
-        "cookie-parser": "^1.4.5",
-        "csurf": "^1.11.0",
-        "dotenv": "^8.2.0",
-        "express": "^4.17.1",
-        "express-fingerprint": "^1.2.2",
-        "express-http-proxy": "^1.6.2",
-        "express-rate-limit": "^5.2.6",
-        "express-slow-down": "^1.4.0",
-        "jsonwebtoken": "^8.5.1",
-        "method-override": "^3.0.0",
-        "mongodb": "^3.6.6",
-        "volleyball": "^1.5.1"
-    },
-    "devDependencies": {
-        "cross-env": "^7.0.3",
-        "nodemon": "^2.0.7"
+        "http-errors": "^1.8.0"
     },
     "engines": {
         "node": ">=10.0.0",
