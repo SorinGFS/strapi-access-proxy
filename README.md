@@ -8,7 +8,7 @@ Strapi does not offer access management nor does it have to offer because the ne
 
 ### Installation
 
-Strapi Access Proxy from `v2.0.0` on relies on much broader project [Access Proxy](https://github.com/SorinGFS/express-access-proxy). All the installation details can be found there.
+Strapi Access Proxy from `v2.0.0` on relies on much broader project [Express Access Proxy](https://github.com/SorinGFS/express-access-proxy). All the installation details can be found there.
 
 ### How it works
 
